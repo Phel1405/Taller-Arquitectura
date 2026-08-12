@@ -1,0 +1,141 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\definecolor{codegray}{gray}{0.95}
+
+\lstset{
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+% ------------------------------------------------------------
+% Header del documento
+% ------------------------------------------------------------
+\title{
+  \textbf{Sistema de autenticación de usuarios}\\
+  \large Documento del diseño de la arquitectura
+}
+
+\author{
+  Juan Felipe Rodríguez Amador
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% --------
+% Tabla de contenidos
+% --------
+
+% \tableofcontents
+% \newpage
+
+% ============================================================
+\section{Descripción del Sistema}
+% ============================================================
+
+La sistema busca autenticar usuarios priorizando una alta
+disponibilidad y un despliegue sencillo para el usuario. Esto
+mediante una aplicación móvil,
+haciendo uso de Spring Boot como el backend que se conecta a una base
+de datos de MySQL.
+
+% ============================================================
+\section{Atributos de Calidad}
+% ============================================================
+
+La arquitectura prioriza los siguientes atributos de calidad:
+
+\begin{itemize}
+  \item Alta disponibilidad (de un 99.99\%)
+  \item Despliegue sencillo
+\end{itemize}
+
+% ============================================================
+\section{Descripción general de la Arquitectura}
+% ============================================================
+
+El sistema sigue una arquitectura de 3-niveles compuesta por un nivel
+ininicial de presentación, luego uno de lógica de negocio y por
+último uno de datos.
+
+\subsection{Diagrama inicial de la Arquitectura}
+
+(Diagrama de la arquitectura)
+
+% Example:
+%
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{../diagrams/architecture.png}
+%     \caption{High-level system architecture}
+%     \label{fig:architecture}
+% \end{figure}
+
+% ============================================================
+\section{Niveles de la Arquitectura}
+% ============================================================
+
+\subsection{Nivel de presentación}
+
+Se implementa una aplicación móvil de android nativo desarrollada en
+el framework de Jetpack Compose...
+
+\subsection{Nivel de logica de negocio}
+
+Se hace uso de un backend desarrollado en Spring Boot...
+
+\subsection{Nivel de datos}
+
+Se hace uso de una base de datos de MySQL
+
+% ============================================================
+\section{Tacticas Utilizadas}
+% ============================================================
+
+Se utilizaron las siguientes tácticas para cumplir con los atributos
+de calidad...
+
+\subsection{Alta disponibilidad}
+
+Para garantizar una alta disponivlidad se utilizó...
+
+\begin{itemize}
+  \item Redundancia
+  \item Detección de fallos
+  \item Ping/echo
+\end{itemize}
+
+\subsection{Despliegue sencillo}
+
+Para garantizar un despliegue sencillo se utilizó...
+
+\begin{itemize}
+  \item Contenedores
+\end{itemize}
+
+\end{document}
