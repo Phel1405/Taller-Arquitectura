@@ -1,34 +1,73 @@
-# Gradle files
-.gradle/
-build/
+### Repository root ###
 
-# Local configuration file (sdk path, etc)
-local.properties
+# OS
+.DS_Store
+Thumbs.db
 
-# Log/OS Files
-*.log
+# Environment / secrets
+.env
+.env.*
+!.env.example
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
+### Android ###
 
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+# Gradle
+android/.gradle/
+android/build/
+android/**/build/
 
-# Keystore files
-*.jks
-*.keystore
+# Android Studio / IntelliJ
+android/.idea/
+android/*.iml
+android/**/*.iml
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+# Local Android SDK configuration
+android/local.properties
 
-# Android Profiling
-*.hprof
+# Android build artifacts
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+
+### Spring Boot / Gradle ###
+
+# Gradle
+backend/.gradle/
+backend/build/
+backend/**/build/
+
+# Keep Gradle wrapper JAR
+!backend/gradle/wrapper/gradle-wrapper.jar
+!backend/**/src/main/**/build/
+!backend/**/src/test/**/build/
+
+# Spring Tool Suite # 
+
+backend/HELP.md
+backend/.apt_generated/
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings/
+backend/.springBeans
+backend/.sts4-cache/
+backend/bin/
+
+### IntelliJ IDEA ###
+
+backend/.idea/
+backend/*.iws
+backend/*.iml
+backend/*.ipr
+backend/out/
+
+### NetBeans ###
+
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+
+### VS Code ###
+.vscode/
