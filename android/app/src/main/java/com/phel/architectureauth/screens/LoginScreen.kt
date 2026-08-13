@@ -54,7 +54,7 @@ fun LoginScreen(navController: NavController, model: LoginViewModel = viewModel(
        TextField(
           value = user.email,
            onValueChange = {model.updateEmail(it)},
-           label = {Text("email")},
+           label = {Text("Email")},
            modifier = Modifier
                .fillMaxWidth()
                .padding(horizontal = 32.dp, vertical = 8.dp),

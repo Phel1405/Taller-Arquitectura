@@ -58,11 +58,15 @@
 \section{Descripción del Sistema}
 % ============================================================
 
-La sistema busca autenticar usuarios priorizando una alta
-disponibilidad y un despliegue sencillo para el usuario. Esto
-mediante una aplicación móvil,
-haciendo uso de Spring Boot como el backend que se conecta a una base
-de datos de MySQL.
+El sistema tiene como objetivo proporcionar una forma de
+autenticación de usuarios mediante una aplicación móvil de Android
+nativo. El usuario debe poder ingresar sus credenciales y recibir una
+respuesta que indique si la autenticación fue existosa.
+
+Además de que debe mantenerse disponible ante fallos de componentes y
+a su vez debe ser sencilla de desplegar en un entorno distinto. Por
+esto, la arquitectura se diseña teniendo como prioridad los atributos
+de calidad de alta disponibilidad y despliegue sencillo.
 
 % ============================================================
 \section{Atributos de Calidad}
@@ -79,15 +83,18 @@ La arquitectura prioriza los siguientes atributos de calidad:
 \section{Descripción general de la Arquitectura}
 % ============================================================
 
-El sistema sigue una arquitectura de 3-niveles compuesta por un nivel
-ininicial de presentación, luego uno de lógica de negocio y por
-último uno de datos.
+El sistema sigue una arquitectura de 3 niveles (3-tiers) compuesta
+por un nivel de presentación, un nivel de lógica de negocio/backend y
+un nivel de datos. \\
+La separación en tres niveles permite aislar las responsabilidades de
+cada parte del sistema y facilita tanto el mantenimiento como el
+despliegue de los diferentes componentes.
 
 \subsection{Diseño de la Arquitectura}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{./architecture.png}
+  \includegraphics[width=0.9\textwidth]{./diagramas/Diagrama-Logico.png}
   \caption{Diagrama lógico de la arquitectura}
   \label{fig:architecture}
 \end{figure}
@@ -98,40 +105,115 @@ ininicial de presentación, luego uno de lógica de negocio y por
 
 \subsection{Nivel de presentación}
 
-Se implementa una aplicación móvil de android nativo desarrollada en
-el framework de Jetpack Compose...
+El nivel de presentación está compuesto por una aplicación móvil
+Android desarrollada utilizando Jetpack Compose que sigue el patron
+de Model-View-Viewmodel (MVVM). \\
+Su responsabilidad es proporcionar la interfaz mediante la cual el
+usuario interactúa con el sistema. Siendo esta una pantalla de inicio
+de sesión y una pantalla principal a la que se accede después de una
+autenticación exitosa. \\
+La aplicación no implementa directamente la lógica de acceso a la
+base de datos. En su lugar, envía las credenciales introducidas por
+el usuario al backend mediante una solicitud HTTP y procesa la
+respuesta proporcionada por este.
 
 \subsection{Nivel de logica de negocio}
 
-Se hace uso de un backend desarrollado en Spring Boot...
+El nivel de lógica de negocio está compuesto por un balanceador de
+carga y una instancia de la aplicación Spring Boot. \\
+La aplicación Spring Boot es responsable de procesar las solicitudes
+de autenticación. Recibe las credenciales proporcionadas por la
+aplicación móvil, consulta la información correspondiente en la base
+de datos y determina si las credenciales son válidas.
+
+El balanceador de carga actúa como punto de entrada al backend. Su
+responsabilidad es distribuir las solicitudes entre las instancias
+disponibles y evitar enviar solicitudes a una instancia que haya
+dejado de responder.
 
 \subsection{Nivel de datos}
 
-Se hace uso de una base de datos de MySQL
+El nivel de datos está compuesto por dos instancias de una base de
+datos MySQL configuradas mediante un esquema de replicación
+activa-pasiva. Este nivel es responsable de proporcionar
+almacenamiento persistente para la información utilizada por el
+sistema de autenticación, principalmente los datos asociados con los usuarios.
+
+En condiciones normales de operación, una de las instancias funciona
+como base de datos primaria (activa) y es la responsable de atender
+las operaciones de lectura y escritura realizadas por el backend. La
+segunda instancia funciona como réplica secundaria (pasiva) y
+mantiene una copia sincronizada de los datos de la base primaria.
+
+La utilización de dos instancias introduce redundancia en el nivel de
+datos y permite que el sistema pueda recuperarse ante un fallo de la
+base de datos primaria.
+
+Se selecciona una configuración activa-pasiva debido a que el sistema
+de autenticación prioriza la consistencia de la información de los
+usuarios. Al tener una única instancia como responsable de las
+operaciones de escritura durante la operación normal, se evita la
+posibilidad de conflictos de escritura entre ambas bases de datos y
+se simplifica el mecanismo de recuperación ante fallos.
 
 % ============================================================
 \section{Tacticas Utilizadas}
 % ============================================================
 
-Se utilizaron las siguientes tácticas para cumplir con los atributos
-de calidad...
-
 \subsection{Alta disponibilidad}
 
-Para garantizar una alta disponivlidad se utilizó...
+Para alcanzar el objetivo de alta disponibilidad se utilizan las
+siguientes tácticas:
 
-\begin{itemize}
-  \item Redundancia
-  \item Detección de fallos
-  \item Ping/echo
-\end{itemize}
+\subsubsection{Redundancia}
+
+Se despliegan dos instancias de la aplicación Spring Boot y se tiene
+una replica de la base de datos.
+
+La redundancia evita que el fallo de una única instancia del backend
+o base de datos provoque necesariamente la interrupción del servicio.
+
+\subsubsection{Detección de Fallos}
+
+El balanceador de carga verifica que las instancias del backend se
+encuentren disponibles antes de dirigirles solicitudes.
+
+\subsubsection{Recuperación}
+
+Cuando una instancia del backend o de la base de datos deja de estar
+disponible, las solicitudes pueden continuar siendo procesadas por la
+instancia restante.
 
 \subsection{Despliegue sencillo}
 
-Para garantizar un despliegue sencillo se utilizó...
+Para facilitar el despliegue se utiliza la táctica de encapsulamiento
+mediante contenedores.
 
-\begin{itemize}
-  \item Contenedores
-\end{itemize}
+\subsubsection{Contenedores}
+
+Los diferentes servicios necesarios para ejecutar el sistema se
+empaquetan en contenedores. Esto incluye las instancias del backend,
+el balanceador de carga y las base de datos.
+
+Los contenedores incluyen las dependencias necesarias para ejecutar
+cada servicio, reduciendo la cantidad de configuración que debe
+realizar manualmente el usuario.
+
+\section{Uso de la aplicación}
+
+\subsection{Instalación}
+
+Para utilizar la aplicación, se debe instalar el archivo APK
+proporcionado en un dispositivo Android compatible.
+
+\subsection{Inicio de Sesión}
+
+Al iniciar la aplicación se mostrará la pantalla de inicio de sesión,
+el usuario debe introducir:
+
+* Correo electrónico: correo asociado a una cuenta registrada.
+
+* Contraseña: contraseña correspondiente a la cuenta.\\
+Después de introducir las credenciales, presionar el botón de inicio de sesión.
 
 \end{document}
