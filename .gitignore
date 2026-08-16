@@ -71,3 +71,6 @@ backend/.nb-gradle/
 
 ### VS Code ###
 .vscode/
+
+### Kotlin ###
+backend/.kotlin
