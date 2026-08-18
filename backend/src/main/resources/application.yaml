@@ -4,13 +4,19 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/arch_auth_db
     username: arch_auth_db
-    password: Test1234
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+logging:
+  level:
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql.BasicBinder: TRACE
 
 server:
   port: 8080
