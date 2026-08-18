@@ -1,22 +1,6 @@
 spring:
   application:
     name: architectureauth
-  datasource:
-    url: jdbc:postgresql://localhost:5432/arch_auth_db
-    username: arch_auth_db
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-logging:
-  level:
-    org.hibernate:
-      SQL: DEBUG
-      type.descriptor.sql.BasicBinder: TRACE
 
 server:
   port: 8080

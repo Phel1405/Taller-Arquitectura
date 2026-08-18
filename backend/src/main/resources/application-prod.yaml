@@ -1,6 +1,11 @@
 spring:
   application:
     version: 1.0.0-prod
+  datasource:
+    url: jdbc:postgresql://postgres:5432/arch_auth_db
+    username: arch_auth_db
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
