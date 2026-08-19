@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.phel.architectureauth.navigation.AppScreens
+import com.phel.architectureauth.viewmodel.LoginViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -30,18 +31,6 @@ data class LoginState(
     val password: String = ""
 )
 
-class LoginViewModel: ViewModel(){
-    private val _loginState = MutableStateFlow(LoginState())
-    val loginState = _loginState.asStateFlow()
-
-    fun updateEmail(newValue: String){
-        _loginState.value = _loginState.value.copy(email = newValue)
-    }
-
-    fun updatePassword(newValue: String){
-        _loginState.value = _loginState.value.copy(password = newValue)
-    }
-}
 @Composable
 fun LoginScreen(navController: NavController, model: LoginViewModel = viewModel()){
     val user by model.loginState.collectAsState()
