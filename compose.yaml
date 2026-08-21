@@ -12,8 +12,8 @@ services:
   postgres:
     image: postgres:18
     environment:
-      POSTGRES_DB: arch_auth_db
-      POSTGRES_USER: arch_auth_db
+      POSTGRES_DB: taller_db
+      POSTGRES_USER: dev 
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
