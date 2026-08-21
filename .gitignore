@@ -71,9 +71,47 @@ backend/nbdist/
 backend/.nb-gradle/
 
 ### VS Code ###
-.vscode/
+!.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
 
 .idea/
+
+# Misc angular
+web/.angular/cache
+web/.sass-cache/
+web/connect.lock
+web/coverage
+web/libpeerconnection.log
+web/testem.log
+web/typings
+web/__screenshots__/
+
+# IDEs and editors
+.idea/
+web/.project
+web/.classpath
+web/.c9/
+web/*.launch
+web/.settings/
+web/*.sublime-workspace
+
+
+# Node
+web/node_modules
+web/npm-debug.log
+web/yarn-error.log
+
+# Compiled output
+web/dist
+web/tmp
+web/out-tsc
+web/bazel-out
 
 ### Kotlin ###
 backend/.kotlin
